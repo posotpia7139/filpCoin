@@ -1,12 +1,85 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>동전 뒤집기</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #result {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #1565c0;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+
+           transition: box-shadow 0.3s;
+           box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);            
+        }
+        button {
+            transition: box-shadow 0.3s;
+        }
+        h1{
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-    <h1>동전 뒤집기</h1>
-    <button>동전 던지기</button>
-    <p id="result"></p>
+    <h1>동전 뒤집기 게임</h1>
+    <button onclick="flipCoin()">동전 던지기</button>
+    <div id="result">결과가 여기에 표시됩니다</div>
+
+    <script>
+        // 동전 뒤집기 함수 (더블 클릭 방지)
+        function flipCoin() {
+            const resultDiv = document.getElementById('result');
+            const button = document.querySelector('button');
+            button.disabled = true; // 버튼 비활성화
+
+            const animTexts = ['동전 던지는 중.', '동전 던지는 중..', '동전 던지는 중...', 
+                   '동전 던지는 중....', '동전 던지는 중.....'];
+            let animIdx = 0;
+            resultDiv.textContent = animTexts[animIdx];
+            // 애니메이션 타이머 시작
+            const animInterval = setInterval(() => {
+            animIdx = (animIdx + 1) % animTexts.length;
+            resultDiv.textContent = animTexts[animIdx];
+            }, 120);
+
+            // 0.5초(500ms) 후에 결과를 보여줌
+            setTimeout(() => {
+            clearInterval(animInterval);
+            const result = Math.random() < 0.5 ? '앞면' : '뒷면';
+            resultDiv.innerHTML = `<strong>${result}</strong>!`;
+            button.disabled = false; // 버튼 활성화
+            }, 500);
+        }
+    </script>
 </body>
 </html>
+<!--
+    이 HTML 문서는 간단한 동전 뒤집기 게임을 구현합니다.
+    사용자가 버튼을 클릭하면 동전이 뒤집히고 결과가 화면에 표시됩니다.
+    Math.random() 함수를 사용하여 50% 확률로 앞면 또는 뒷면을 결정합니다.
+-->
